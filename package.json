@@ -4,6 +4,8 @@
   "description": "This project consist of building a REST API that will be consumed by a CRM. This API implements the management of Customers and Users. Users can only be manage by a User with an admin role.",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
+    "watch": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
