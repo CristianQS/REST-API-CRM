@@ -1,9 +1,9 @@
 version: '3'
 
 services:
-  node:
+  back:
     build: .
-    command: npm run start
+    command: npm run prod
     volumes:
       - .:/code
     ports:
