@@ -1,4 +1,8 @@
 const User = require('../../models/user')
+const { sendError, sendSuccess } = require('../../utils/http/index')
+const { SERVER_ERROR, REQUIRED_FIELD_MISSING_NAME, 
+        REQUIRED_FIELD_MISSING_EMAIL, USER_NOT_FOUND, 
+        PUT_SUCCESS } = require('../../utils/http/constants')
 
 const updateUser = async (req, res) => {
   try {
@@ -6,50 +10,24 @@ const updateUser = async (req, res) => {
 
       const { username, email } = req.body
 
-      if (username === undefined || username === '') {
-          return res.status(422).json({
-              'code': 'REQUIRED_FIELD_MISSING',
-              'description': 'username is required',
-              'field': 'username'
-          })
-      }
-
-      if (email === undefined || email === '') {
-          return res.status(422).json({
-              'code': 'REQUIRED_FIELD_MISSING',
-              'description': 'email is required',
-              'field': 'email'
-          })
-      }
-
+      if (username === undefined || username === '') return sendError(res, REQUIRED_FIELD_MISSING_NAME).missingField()
+      if (email === undefined || email === '') return sendError(res, REQUIRED_FIELD_MISSING_EMAIL).missingField()
 
       let isUserExists = await User.findById(userId);
 
-      if (!isUserExists) {
-          return res.status(404).json({
-              'code': 'BAD_REQUEST_ERROR',
-              'description': 'No user found in the system'
-          })
-      }
+      if (!isUserExists) return sendError(res, USER_NOT_FOUND)
 
       let updateUser = await User.findByIdAndUpdate(userId, req.body, {
           new: true
       });
 
       if (updateUser) {
-          return res.status(200).json({
-              'message': 'user updated successfully',
-              'data': updateUser
-          })
+        return sendSuccess(res, PUT_SUCCESS, updateUser)
       } else {
-          throw new Error('something went worng');
+        return sendError(res, SERVER_ERROR).internal()
       }
   } catch (error) {
-
-      return res.status(500).json({
-          'code': 'SERVER_ERROR',
-          'description': 'something went wrong, Please try again'
-      })
+      return sendError(res, SERVER_ERROR).internal()
   }
 }
 

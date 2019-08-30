@@ -1,25 +1,17 @@
 const User = require('../../models/user')
+const { sendError, sendSuccess } = require('../../utils/http/index')
+const { SERVER_ERROR,USER_NOT_FOUND ,DELETE_SUCCESS } = require('../../utils/http/constants')
 
 const deleteUser = async (req, res) => {
   try {
-      let user = await User.findByIdAndRemove(req.params.id);
-      if (user) {
-          return res.status(204).json({
-              'message': `user with id ${req.params.id} deleted successfully`
-          })
-      }
+      let user = await User.findByIdAndRemove(req.params.id)
 
-      return res.status(404).json({
-          'code': 'BAD_REQUEST_ERROR',
-          'description': 'No users found in the system'
-      })
+      if (user) return sendSuccess(res, DELETE_SUCCESS)
+      
+      return sendError(res, USER_NOT_FOUND).notFound()
 
   } catch (error) {
-
-      return res.status(500).json({
-          'code': 'SERVER_ERROR',
-          'description': 'something went wrong, Please try again'
-      })
+      return sendError(res, SERVER_ERROR).internal()
   }
 }
 
