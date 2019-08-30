@@ -1,47 +1,28 @@
 const User = require('../../models/user')
+const { sendError, sendSuccess } = require('../../utils/http/index')
+const { SERVER_ERROR, REQUIRED_FIELD_MISSING_NAME, 
+        REQUIRED_FIELD_MISSING_EMAIL, USER_ALREAY_EXISTS, 
+        POST_SUCCESS } = require('../../utils/http/constants')
 
 const createUser = async (req, res) => {
     try {
-        const { name, email } = req.body
-        
-        if (name === undefined || name === '') {
-          return res.status(422).json({
-            'code': 'REQUIRED_FIELD_MISSING',
-            'description': 'username is required',
-            'field': 'username'
-          })
-        }
-        if (email === undefined || email === '') {
-          return res.status(422).json({
-            'code': 'REQUIRED_FIELD_MISSING',
-            'description': 'email is required',
-            'field': 'email'
-          })         
-        }
+        const { username, email } = req.body;
+        if (username === undefined || username === '') return sendError(res, REQUIRED_FIELD_MISSING_NAME).missingField()
+        if (email === undefined || email === '') return sendError(res, REQUIRED_FIELD_MISSING_EMAIL).missingField()
+
         let isEmailExists = await User.findOne({"email": email})
 
-        if (isEmailExists) {
-          return  res.status(409).send({ 
-            'code': 'ENTITY_ALREAY_EXISTS', 
-            'error': 'User already exists'
-          })
-        }
+        if (isEmailExists) return sendError(res, USER_ALREAY_EXISTS).entityExists()
 
-        let newCustomer = await Customer.create(req.body)
+        let newUser = await User.create(req.body)
 
-        if (newCustomer) {
-          return res.status(200).json({
-              'message': 'user updated successfully',
-              'data': updateUser
-          })
+        if (newUser) {
+            return sendSuccess(res, POST_SUCCESS, newUser).created()
         } else {
-            throw new Error('something went worng')
+            return sendError(res,SERVER_ERROR).internal()
         }
     } catch (error) {
-        return res.status(500).json({
-          'code': 'SERVER_ERROR',
-          'description': 'something went wrong, Please try again'
-        })
+        return sendError(res,SERVER_ERROR).internal()
     }
 }
 
