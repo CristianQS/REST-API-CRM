@@ -7,17 +7,17 @@ pipeline {
   stages {
     stage ('Install front Dependecies') {
       steps {
-        sh 'sudo docker-compose build'
+        sh 'docker-compose build'
       }
     }
     stage ('Test front') {
       steps {
-        sh 'sudo docker-compose run back npm run test'
+        sh 'docker-compose run back npm run test'
       }
     }
     stage ('Deploy front') {
       steps {
-        sh 'sudo docker-compose up'            
+        sh 'docker-compose up'            
       }
     }
   }
