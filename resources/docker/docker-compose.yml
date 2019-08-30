@@ -6,9 +6,9 @@ services:
     restart: always
     ports:
       - '27017:27017'
-    environment:
-        MONGO_INITDB_ROOT_USERNAME: adminCRM
-        MONGO_INITDB_ROOT_PASSWORD: cqs9crm
+    # environment:
+    #     MONGO_INITDB_ROOT_USERNAME: adminCRM
+    #     MONGO_INITDB_ROOT_PASSWORD: cqs9crm
   db-seed:
     build: ./mongo
     links:

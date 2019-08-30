@@ -2,7 +2,7 @@ const express = require('express')
 const dependecies = require('./src/configs/server')
 const db = require('./src/configs/db')
 const app = express()
-const api = require('./routes/index')
+const api = require('./src/routes/index')
 
 /** Server config */
 const middlewares =  Object.values(dependecies)
