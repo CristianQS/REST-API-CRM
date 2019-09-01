@@ -1,8 +1,8 @@
 const User = require('../../models/user')
-const { sendError, sendSuccess } = require('../../utils/http/index')
+const { sendError, sendSuccess } = require('../../helpers/http/index')
 const { SERVER_ERROR, REQUIRED_FIELD_MISSING_NAME, 
         REQUIRED_FIELD_MISSING_EMAIL, USER_ALREAY_EXISTS, 
-        POST_SUCCESS } = require('../../utils/http/constants')
+        POST_SUCCESS } = require('../../helpers/http/constants')
 
 const createUser = async (req, res) => {
     try {

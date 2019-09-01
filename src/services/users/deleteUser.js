@@ -1,6 +1,6 @@
 const User = require('../../models/user')
-const { sendError, sendSuccess } = require('../../utils/http/index')
-const { SERVER_ERROR,USER_NOT_FOUND ,DELETE_SUCCESS } = require('../../utils/http/constants')
+const { sendError, sendSuccess } = require('../../helpers/http/index')
+const { SERVER_ERROR,USER_NOT_FOUND ,DELETE_SUCCESS } = require('../../helpers/http/constants')
 
 const deleteUser = async (req, res) => {
   try {

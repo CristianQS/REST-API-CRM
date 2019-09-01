@@ -1,8 +1,8 @@
 const User = require('../../models/user')
-const { sendError, sendSuccess } = require('../../utils/http/index')
+const { sendError, sendSuccess } = require('../../helpers/http/index')
 const { SERVER_ERROR, REQUIRED_FIELD_MISSING_NAME, 
         REQUIRED_FIELD_MISSING_EMAIL, USER_NOT_FOUND, 
-        PUT_SUCCESS } = require('../../utils/http/constants')
+        PUT_SUCCESS } = require('../../helpers/http/constants')
 
 const updateUser = async (req, res) => {
   try {

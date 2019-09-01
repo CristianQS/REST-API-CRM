@@ -1,7 +1,7 @@
 const User = require('../../models/user')
-const { sendError, sendSuccess } = require('../../utils/http/index')
+const { sendError, sendSuccess } = require('../../helpers/http/index')
 const { SERVER_ERROR, USER_NOT_FOUND, 
-        GET_SUCCESS } = require('../../utils/http/constants')
+        GET_SUCCESS } = require('../../helpers/http/constants')
 
 const getAllUser = async (req, res) => {
   try {
