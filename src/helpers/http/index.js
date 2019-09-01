@@ -4,6 +4,7 @@ module.exports.sendError = (res, message) => ({
   entityExists: () => res.status(409).send({ code: 'ENTITY_ALREAY_EXISTS', error: message}),
   missingField: () => res.status(422).send({ code: 'REQUIRED_FIELD_MISSING', error: message }),
   internal: () => res.status(500).send({ code: 'SERVER_ERROR', error: message }),
+  unsecureType: () => res.status(415).send({ code: 'UNSECURE_HEADER_TYPE', error: message }),
 })
 
 module.exports.sendSuccess = (res, message, data = {}) => ({

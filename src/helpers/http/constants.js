@@ -14,6 +14,8 @@ module.exports.REQUIRED_FIELD_MISSING_USERNAME = 'Missing username field'
 module.exports.CUSTOMER_ALREAY_EXISTS = 'Customer already exists'
 module.exports.USER_ALREAY_EXISTS = 'User already exists'
 module.exports.AUTH_FAILED = 'Authentication fail'
+module.exports.UNSECURE_HEADER_TYPE = 'Missing or invalid content type header'
+module.exports.UNAUTHORIZED = 'Not Authorized'
 
 // 5xx Errors
 module.exports.SERVER_ERROR = 'Something went wrong, Please try again'
