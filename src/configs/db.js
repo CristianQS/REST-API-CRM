@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 
 module.exports.connectDb = () => {
+  mongoose.set('useFindAndModify', false)
   if(process.env.NODE_ENV === 'production') {
     return mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME_PROD}:${process.env.DB_PASSWORD_PROD}`+
     `@apicrm-jmu6p.mongodb.net/test?retryWrites=true&w=majority`, { useNewUrlParser: true })

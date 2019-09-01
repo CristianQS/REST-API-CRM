@@ -6,7 +6,7 @@ const deleteUser = async (req, res) => {
   try {
       let user = await User.findByIdAndRemove(req.params.id)
 
-      if (user) return sendSuccess(res, DELETE_SUCCESS)
+      if (user) return sendSuccess(res, DELETE_SUCCESS).success()
       
       return sendError(res, USER_NOT_FOUND).notFound()
 

@@ -19,10 +19,10 @@ const updateUser = async (req, res) => {
 
       let updateUser = await User.findByIdAndUpdate(userId, req.body, {
           new: true
-      });
+      })
 
       if (updateUser) {
-        return sendSuccess(res, PUT_SUCCESS, updateUser)
+        return sendSuccess(res, PUT_SUCCESS, updateUser).success()
       } else {
         return sendError(res, SERVER_ERROR).internal()
       }

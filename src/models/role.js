@@ -1,4 +1,4 @@
 module.exports.Role = {
-  ADMIN: 'admin',
-  BASIC: 'basic'
+  ADMIN: 'ADMIN',
+  BASIC: 'BASIC'
 }
