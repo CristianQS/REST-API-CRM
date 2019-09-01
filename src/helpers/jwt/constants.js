@@ -1,0 +1,5 @@
+module.exports.AUTH_HEADER = 'authorization'
+module.exports.CONTENT_LENGTH_HEADER = 'content-length'
+module.exports.CONTENT_TYPE_HEADER = 'content-type'
+module.exports.SECRET_TOKEN = '7bd8106819509aff6c03fd80f0b5a460e5bc6e4defa22c555743ee1f649a41cb'
+module.exports.EXPIRE_TIME = '1h'
