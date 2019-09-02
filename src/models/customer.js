@@ -16,6 +16,7 @@ const CustomerSchema = new Schema({
   },
   photo: {
     type: String,
+    default: ''
   },
   createdBy: {
     type: Schema.Types.ObjectId,
@@ -23,7 +24,7 @@ const CustomerSchema = new Schema({
   },
   lastTimeModified: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'User'
   }
 })
 

@@ -1,26 +1,36 @@
 const { customerRepository } = require('../../repository/customerRepository')
 const { sendError, sendSuccess } = require('../../helpers/http/index')
 const { SERVER_ERROR,REQUIRED_FIELD_MISSING_NAME, 
-        REQUIRED_FIELD_MISSING_EMAIL, CUSTOMER_ALREAY_EXISTS,  
+        REQUIRED_FIELD_MISSING_EMAIL, CUSTOMER_NOT_FOUND,  
         PUT_SUCCESS } = require('../../helpers/http/constants')
+
+const { userRepository } = require('../../repository/userRepository')
+const { decodeToken } = require('../../helpers/jwt/index')
+const { AUTH_HEADER } = require('../../helpers/auth/constants')
 
 module.exports.updateCustomer = async (req, res, next) => {
   try {
       const customerId = req.params.id
-      const { name, email } = req.body
+      const newUpdateCustomer = req.body
 
-      if (name === undefined || name === '') return sendError(res, REQUIRED_FIELD_MISSING_NAME).missingField()
-      if (email === undefined || email === '') return sendError(res, REQUIRED_FIELD_MISSING_EMAIL).missingField()
+      if (newUpdateCustomer.name === undefined || newUpdateCustomer.name === '') return sendError(res, REQUIRED_FIELD_MISSING_NAME).missingField()
+      if (newUpdateCustomer.email === undefined || newUpdateCustomer.email === '') return sendError(res, REQUIRED_FIELD_MISSING_EMAIL).missingField()
 
-      let isEmailExists = await customerRepository().findOne({"email": email})
+      let isEmailExists = await customerRepository().findOne({"email": newUpdateCustomer.email})
 
-      if (isEmailExists) return sendError(res, CUSTOMER_ALREAY_EXISTS).entityExists()
+      if (!isEmailExists) return sendError(res, CUSTOMER_NOT_FOUND).notFound()
 
-      let updateCustomer = await customerRepository().update(customerId, req.body, 
+        const header = req.headers[AUTH_HEADER].split(' ')
+        let decoded = decodeToken(header[1])
+        let user = await userRepository().find({email:decoded.email})
+
+        newUpdateCustomer['lastTimeModified'] = user[0]._id
+
+      let updatedCustomer = await customerRepository().update(customerId, newUpdateCustomer, 
         { new: true })
 
-      if (updateCustomer) {
-        return sendSuccess(res,PUT_SUCCESS, updateCustomer).success()  
+      if (updatedCustomer) {
+        return sendSuccess(res,PUT_SUCCESS, updatedCustomer).success()  
       } else {
         return sendError(res,SERVER_ERROR).internal()
       }
