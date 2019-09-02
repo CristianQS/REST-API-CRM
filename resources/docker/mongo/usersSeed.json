@@ -1,0 +1,14 @@
+[
+  {
+    "username": "Bruce Wayne",
+    "password": "Batman",
+    "email": "bruce@gmail.com",
+    "role": "ADMIN"
+  },
+  {
+    "username": "Jason Todd",
+    "password": "redHood",
+    "email": "jason@gmail.com",
+    "role": "BASIC"
+  }
+]
