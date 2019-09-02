@@ -10,6 +10,10 @@ const CustomerSchema = new Schema({
     type: String,
     required: true
   },
+  email: {
+    type: String,
+    required: true
+  },
   photo: {
     type: String,
   },
