@@ -1,5 +1,7 @@
 const { customerRepository } = require('../../repository/customerRepository')
 
+const { uploadImage } = require('../../helpers/aws/s3/uploadImage')
+
 const { userRepository } = require('../../repository/userRepository')
 const { decodeToken } = require('../../helpers/jwt/index')
 const { AUTH_HEADER } = require('../../helpers/auth/constants')
@@ -24,7 +26,10 @@ module.exports.createCustomer = async (req,res,next) => {
 
       newCustomer['createdBy'] = user[0]._id
       newCustomer['lastTimeModified'] = user[0]._id
-      
+      if(newCustomer['photo']) {
+        let urlPhoto = await uploadImage(newCustomer.photo, newCustomer.email)
+        newCustomer['photo'] = urlPhoto
+      }
       let createdCustomer = await customerRepository().create(newCustomer)
 
       if (createdCustomer) {
