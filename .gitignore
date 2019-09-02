@@ -2,3 +2,4 @@ node_modules/
 resources/docker/mongo/data
 .env
 *.pem
+coverage/
