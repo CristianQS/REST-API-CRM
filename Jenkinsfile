@@ -5,11 +5,6 @@ pipeline {
     HOME = '.'
   }
 stages {
-    stage ('Stop docker containers') {
-      steps {
-        sh 'docker stop crm-rest-apimaster_back_1'
-      }
-    }
     stage ('Install front Dependecies') {
       steps {
         sh 'docker-compose build'
