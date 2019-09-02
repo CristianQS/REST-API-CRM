@@ -1,5 +1,5 @@
-const { sendError, sendSuccess } = require('../http/index')
-const { SERVER_ERROR, CUSTOMER_NOT_FOUND, GET_SUCCESS } = require('../http/constants')
+const { sendError, sendSuccess } = require('../../helpers/http/index')
+const { SERVER_ERROR, CUSTOMER_NOT_FOUND, GET_SUCCESS } = require('../../helpers/http/constants')
 
 module.exports.getAllCustomer = async (req,res,next) => {
   try {

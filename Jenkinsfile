@@ -17,7 +17,7 @@ pipeline {
     }
     stage ('Deploy front') {
       steps {
-        sh 'docker-compose up'            
+        sh 'docker-compose up -d'            
       }
     }
   }

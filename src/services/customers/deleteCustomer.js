@@ -1,6 +1,6 @@
-const { sendError, sendSuccess } = require('../http/index')
+const { sendError, sendSuccess } = require('../../helpers/http/index')
 const { SERVER_ERROR, CUSTOMER_NOT_FOUND, 
-        DELETE_SUCCESS } = require('../http/constants')
+        DELETE_SUCCESS } = require('../../helpers/http/constants')
 
 module.exports.deleteCustomer = async (req, res, next) => {
   try {

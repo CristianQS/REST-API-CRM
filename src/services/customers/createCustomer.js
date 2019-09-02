@@ -16,6 +16,7 @@ module.exports.createCustomer = async (req,res,next) => {
       let newCustomer = await Customer.create(req.body)
 
       if (newCustomer) {
+          newCustomer
           return sendSuccess(res, POST_SUCCESS, newCustomer)
       } else {
           return sendError(res,SERVER_ERROR).internal()

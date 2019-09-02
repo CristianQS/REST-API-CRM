@@ -1,7 +1,7 @@
-const { sendError, sendSuccess } = require('../http/index')
+const { sendError, sendSuccess } = require('../../helpers/http/index')
 const { SERVER_ERROR,REQUIRED_FIELD_MISSING_NAME, 
         REQUIRED_FIELD_MISSING_EMAIL, CUSTOMER_ALREAY_EXISTS,  
-        PUT_SUCCESS } = require('../http/constants')
+        PUT_SUCCESS } = require('../../helpers/http/constants')
 
 module.exports.updateCustomer = async (req, res, next) => {
   try {
