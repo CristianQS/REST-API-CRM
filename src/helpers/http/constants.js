@@ -7,7 +7,9 @@ module.exports.AUTH_SUCCESS = 'Authenticated successfully'
 
 // 4xx Errors
 module.exports.USER_NOT_FOUND = 'No user found in the system'
+module.exports.ROLE_NOT_FOUND = 'No role found in the system'
 module.exports.CUSTOMER_NOT_FOUND = 'No customer found in the system'
+module.exports.BAD_PARAMETERS = 'Bad parameters'
 module.exports.REQUIRED_FIELD_MISSING_EMAIL = 'Missing email field'
 module.exports.REQUIRED_FIELD_MISSING_NAME = 'Missing name field'
 module.exports.REQUIRED_FIELD_MISSING_USERNAME = 'Missing username field'

@@ -1,22 +1,23 @@
 const { userRepository } = require('../../repository/userRepository')
+const { Role } = require('../../models/role')
 const { sendError, sendSuccess } = require('../../helpers/http/index')
-const { SERVER_ERROR, REQUIRED_FIELD_MISSING_NAME, 
-        REQUIRED_FIELD_MISSING_EMAIL, USER_NOT_FOUND, 
+const { SERVER_ERROR, BAD_PARAMETERS, USER_NOT_FOUND, ROLE_NOT_FOUND,
         PUT_SUCCESS } = require('../../helpers/http/constants')
 
-const updateUser = async (req, res) => {
+const updateRoleUser = async (req, res) => {
   try {
       const userId = req.params.id
-      const { username, email } = req.body
+      let check = Object.entries(req.body)
+      if (check.length > 1) return sendError(res, BAD_PARAMETERS ).badRequest()
 
-      if (username === undefined || username === '') return sendError(res, REQUIRED_FIELD_MISSING_NAME).missingField()
-      if (email === undefined || email === '') return sendError(res, REQUIRED_FIELD_MISSING_EMAIL).missingField()
+      const role = req.body.role
+      if (role === undefined) return sendError(res, BAD_PARAMETERS ).badRequest()
+      if (Role[role] === undefined) return sendError(res, ROLE_NOT_FOUND ).badRequest()
 
       let isUserExists = await userRepository().findById(userId)
 
       if (!isUserExists) return sendError(res, USER_NOT_FOUND).notFound()
-
-      let updateUser = await userRepository().update(userId, req.body, { new: true })
+      let updateUser = await userRepository().update(userId, {role: role},{new:true})
 
       if (updateUser) {
         return sendSuccess(res, PUT_SUCCESS, updateUser).success()
@@ -29,5 +30,5 @@ const updateUser = async (req, res) => {
 }
 
 module.exports = {
-    updateUser: updateUser
+    updateRoleUser: updateRoleUser
 }

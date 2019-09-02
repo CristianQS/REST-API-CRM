@@ -15,6 +15,11 @@ db.connectDb()
 
 /** Routes API */
 app.use(api)
+app.use(function(req, res) {
+  res.json({
+      error: `Not Found ${req.method} ${req.path}`
+  })
+})
 app.use(secureOutput)
 
 const PORT = process.env.SERVER_PORT

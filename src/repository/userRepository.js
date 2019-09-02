@@ -5,6 +5,6 @@ module.exports.userRepository = () => ({
   findOne: (params) => User.findOne(params),
   findById: (id) => User.findById(id),
   create: (body) => User.create(body),
-  update: (id, body, options) => User.findByIdAndUpdate(id, body, options),
+  update: (id, body, options={}) => User.findByIdAndUpdate(id, body, options),
   delete: (id) => User.findByIdAndRemove(id)
 })
