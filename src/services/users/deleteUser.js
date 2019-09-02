@@ -6,7 +6,7 @@ const deleteUser = async (req, res) => {
   try {
       let user = await userRepository().delete(req.params.id)
 
-      if (user) return sendSuccess(res, DELETE_SUCCESS).success()
+      if (user) return sendSuccess(res, DELETE_SUCCESS).noContent()
       
       return sendError(res, USER_NOT_FOUND).notFound()
 

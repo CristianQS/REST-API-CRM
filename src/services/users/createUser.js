@@ -6,7 +6,7 @@ const { SERVER_ERROR, REQUIRED_FIELD_MISSING_NAME,
 
 const createUser = async (req, res) => {
     try {
-        const { username, email } = req.body;
+        const { username, email } = req.body
         if (username === undefined || username === '') return sendError(res, REQUIRED_FIELD_MISSING_NAME).missingField()
         if (email === undefined || email === '') return sendError(res, REQUIRED_FIELD_MISSING_EMAIL).missingField()
 

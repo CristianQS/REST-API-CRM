@@ -12,7 +12,7 @@ const updateUser = async (req, res) => {
       if (username === undefined || username === '') return sendError(res, REQUIRED_FIELD_MISSING_NAME).missingField()
       if (email === undefined || email === '') return sendError(res, REQUIRED_FIELD_MISSING_EMAIL).missingField()
 
-      let isUserExists = await userRepository().findById(userId);
+      let isUserExists = await userRepository().findById(userId)
 
       if (!isUserExists) return sendError(res, USER_NOT_FOUND)
 
