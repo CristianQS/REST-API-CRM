@@ -30,3 +30,5 @@ app.listen(PORT, function () {
     Running at http://localhost:${PORT}
   `)
 })
+
+module.exports = app
