@@ -14,8 +14,8 @@ const updateUser = async (req, res) => {
       if (password === '') return sendError(res, REQUIRED_FIELD_MISSING_PASSWORD ).missingField()
       if (email === '') return sendError(res, REQUIRED_FIELD_MISSING_EMAIL).missingField()
 
-      if (role === undefined) return sendError(res, BAD_PARAMETERS ).badRequest()
-      if (Role[role] === undefined) return sendError(res, ROLE_NOT_FOUND ).badRequest()
+      if (role === '') return sendError(res, BAD_PARAMETERS ).badRequest()
+      if (role && Role[role] === undefined) return sendError(res, ROLE_NOT_FOUND ).badRequest()
 
       let isUserExists = await userRepository().findById(userId)
       if (!isUserExists) return sendError(res, USER_NOT_FOUND).notFound()

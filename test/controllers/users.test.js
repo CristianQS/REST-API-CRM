@@ -105,10 +105,7 @@ describe('Users Endpoints Tests', function() {
       .set(AUTH_HEADER , getToken(AdminUser))
       .send({ username: 'pepito'})
       .end(function(err, res) { 
-        const updatedUser = { username: res.body.data.username, 
-          password: res.body.data.password, email: res.body.data.email, 
-          role: res.body.data.role 
-        }
+        let updatedUser = mapUser(res.body.data)
         expect(res.statusCode).to.equal(200)
         expect(updatedUser).eql(newAdminUser)
         expect(res.body.message).to.be.equal(PUT_SUCCESS)
@@ -138,10 +135,7 @@ describe('Users Endpoints Tests', function() {
       .set(AUTH_HEADER , getToken(AdminUser))
       .send({ role : Role.BASIC })
       .end(function(err, res) { 
-        const updatedUser = { username: res.body.data.username, 
-          password: res.body.data.password, email: res.body.data.email, 
-          role: res.body.data.role 
-        }
+        let updatedUser = mapUser(res.body.data)
         expect(res.statusCode).to.equal(200)
         expect(updatedUser).eql(newAdminUser)
         expect(res.body.message).to.be.equal(PUT_SUCCESS)
@@ -186,3 +180,11 @@ describe('Users Endpoints Tests', function() {
     })
   })
 })
+
+
+const mapUser = (data) => {
+  return  { username: data.username, 
+    password: data.password, email: data.email, 
+    role: data.role 
+  }
+}
