@@ -9,13 +9,13 @@ module.exports.login = async (req, res) => {
     const { email, password } = req.body
     let user = await userRepository().findOne({ email: email })
 
-    if (user.length === 0) return sendError(res, USER_NOT_FOUND).notFound()
+    if (!user) return sendError(res, USER_NOT_FOUND).notFound()
     if (user.email === email && user.password === password) {
       let payload = { email: user.email}
       let token = generateToken(payload)
       return sendSuccess(res,AUTH_SUCCESS,token).success()
     }
-    return sendError(res,AUTH_FAILED ).badRequest()
+    return sendError(res,AUTH_FAILED).badRequest()
   } catch (error) {
     return sendError(res, SERVER_ERROR).internal()
   }

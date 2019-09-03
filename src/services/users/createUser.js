@@ -6,8 +6,9 @@ const { SERVER_ERROR, REQUIRED_FIELD_MISSING_NAME,
 
 const createUser = async (req, res) => {
     try {
-        const { username, email } = req.body
+        const { username, password, email } = req.body
         if (username === undefined || username === '') return sendError(res, REQUIRED_FIELD_MISSING_NAME).missingField()
+        if (password === undefined || password === '') return sendError(res, ).missingField()
         if (email === undefined || email === '') return sendError(res, REQUIRED_FIELD_MISSING_EMAIL).missingField()
 
         let isEmailExists = await userRepository().findOne({"email": email})

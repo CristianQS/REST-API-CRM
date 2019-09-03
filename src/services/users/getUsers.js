@@ -11,9 +11,9 @@ const getAllUser = async (req, res) => {
     if (users.length > 0) return sendSuccess(res, GET_SUCCESS, users).success()
     return sendError(res, USER_NOT_FOUND).notFound()
 
-} catch (error) {
-    return sendError(res, SERVER_ERROR).internal()
-}
+  } catch (error) {
+      return sendError(res, SERVER_ERROR).internal()
+  }
 }
 
 module.exports = {
