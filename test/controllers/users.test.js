@@ -5,6 +5,7 @@ const expect = chai.expect
 
 const { AUTH_HEADER } = require('../../src/helpers/auth/constants')
 const { generateToken } = require('../../src/helpers/jwt/index')
+const { Role } = require('../../src/models/role')
 const { GET_SUCCESS,POST_SUCCESS, UNAUTHORIZED,
         REQUIRED_FIELD_MISSING_EMAIL, USER_ALREAY_EXISTS, 
         PUT_SUCCESS } = require('../../src/helpers/http/constants')
@@ -95,9 +96,10 @@ describe('Users Endpoints Tests', function() {
     })
   })
 
-  describe('# PUT /v1/users/', function() { 
+  describe('# PUT /v1/users/:id', function() { 
     it('An ADMIN should modified a user', function(done) { 
       newAdminUser.username = 'pepito'
+
       request(app).put(`/v1/users/${newAdminUserId}`)
       .set('Content-type','application/json')
       .set(AUTH_HEADER , getToken(AdminUser))
@@ -118,7 +120,7 @@ describe('Users Endpoints Tests', function() {
       request(app).put(`/v1/users/${newAdminUserId}`)
       .set('Content-type','application/json')
       .set( AUTH_HEADER , getToken(BasicUser))
-      .send(newAdminUser)
+      .send({ username: 'pepito'})
       .end(function(err, res) { 
         expect(res.statusCode).to.equal(415)
         expect(res.body.error).to.be.equal(UNAUTHORIZED)
@@ -127,7 +129,40 @@ describe('Users Endpoints Tests', function() {
     })
   })
 
-  describe('# DELETE /v1/users/', function() { 
+  describe('# PATCH /v1/users/:id/role', function() { 
+    it('An ADMIN should modified a user', function(done) { 
+      newAdminUser.role = Role.BASIC
+
+      request(app).patch(`/v1/users/${newAdminUserId}/role`)
+      .set('Content-type','application/json')
+      .set(AUTH_HEADER , getToken(AdminUser))
+      .send({ role : Role.BASIC })
+      .end(function(err, res) { 
+        const updatedUser = { username: res.body.data.username, 
+          password: res.body.data.password, email: res.body.data.email, 
+          role: res.body.data.role 
+        }
+        expect(res.statusCode).to.equal(200)
+        expect(updatedUser).eql(newAdminUser)
+        expect(res.body.message).to.be.equal(PUT_SUCCESS)
+        done()
+      })
+    })
+   
+    it('A BASIC User should not create a user', function(done) { 
+      request(app).patch(`/v1/users/${newAdminUserId}/role`)
+      .set('Content-type','application/json')
+      .set( AUTH_HEADER , getToken(BasicUser))
+      .send({ role : Role.BASIC })
+      .end(function(err, res) { 
+        expect(res.statusCode).to.equal(415)
+        expect(res.body.error).to.be.equal(UNAUTHORIZED)
+        done()
+      })
+    })
+  })
+
+  describe('# DELETE /v1/users/:id', function() { 
     it('An ADMIN should delete a user', function(done) { 
       request(app).delete(`/v1/users/${newAdminUserId}`)
       .set('Content-type','application/json')
