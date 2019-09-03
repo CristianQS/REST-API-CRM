@@ -1,12 +1,12 @@
 const { userRepository } = require('../../repository/userRepository')
 const { sendError, sendSuccess } = require('../../helpers/http/index')
-const { SERVER_ERROR,USER_NOT_FOUND ,DELETE_SUCCESS } = require('../../helpers/http/constants')
+const { SERVER_ERROR,USER_NOT_FOUND } = require('../../helpers/http/constants')
 
 const deleteUser = async (req, res) => {
   try {
       let user = await userRepository().delete(req.params.id)
 
-      if (user) return sendSuccess(res, DELETE_SUCCESS).noContent()
+      if (user) return sendSuccess(res).noContent()
       
       return sendError(res, USER_NOT_FOUND).notFound()
 

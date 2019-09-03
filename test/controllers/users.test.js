@@ -6,17 +6,19 @@ const expect = chai.expect
 const { AUTH_HEADER } = require('../../src/helpers/auth/constants')
 const { generateToken } = require('../../src/helpers/jwt/index')
 const { GET_SUCCESS,POST_SUCCESS, UNAUTHORIZED,
-        REQUIRED_FIELD_MISSING_EMAIL, USER_ALREAY_EXISTS } = require('../../src/helpers/http/constants')
+        REQUIRED_FIELD_MISSING_EMAIL, USER_ALREAY_EXISTS, 
+        PUT_SUCCESS } = require('../../src/helpers/http/constants')
 
 const getToken = (payload) => 'Bearer ' + generateToken(payload)
 const BasicUser = {email:'jason@gmail.com'}
 const AdminUser = {email:'bruce@gmail.com'}
 const newAdminUser = { username: "Alfred", password: "jenkins",
                   email: "alfred@gmail.com", role: "ADMIN" }
+let newAdminUserId = 0
 
 describe('Users Endpoints Tests', function() { 
   describe('# GET /v1/users/', function() { 
-    it('should get users an ADMIN', function(done) { 
+    it('An ADMIN should get users ', function(done) { 
       request(app).get('/v1/users/')
       .set('Content-type','application/json')
       .set( AUTH_HEADER , getToken(AdminUser))
@@ -28,7 +30,7 @@ describe('Users Endpoints Tests', function() {
       })
     })
 
-    it('should not get users a BASIC User', function(done) { 
+    it('A BASIC User should not get users', function(done) { 
       request(app).get('/v1/users/')
       .set('Content-type','application/json')
       .set( AUTH_HEADER , getToken(BasicUser))
@@ -41,7 +43,7 @@ describe('Users Endpoints Tests', function() {
   })
 
   describe('# POST /v1/users/', function() { 
-    it('should create a user an ADMIN', function(done) { 
+    it('An ADMIN should create a user ', function(done) { 
       request(app).post('/v1/users/')
       .set('Content-type','application/json')
       .set(AUTH_HEADER , getToken(AdminUser))
@@ -50,6 +52,7 @@ describe('Users Endpoints Tests', function() {
         expect(res.statusCode).to.equal(201)
         expect(res.body.data).to.be.an('object')
         expect(res.body.message).to.be.equal(POST_SUCCESS)
+        newAdminUserId = res.body.data._id
         done()
       })
     })
@@ -58,11 +61,10 @@ describe('Users Endpoints Tests', function() {
       request(app).post('/v1/users/')
       .set('Content-type','application/json')
       .set(AUTH_HEADER , getToken(AdminUser))
-      .send(AdminUser)
+      .send(newAdminUser)
       .end(function(err, res) { 
-        expect(res.statusCode).to.equal(422)
-        expect(res.body.data).to.be.an('object')
-        expect(res.body.message).to.be.equal(USER_ALREAY_EXISTS)
+        expect(res.statusCode).to.equal(409)
+        expect(res.body.error).to.be.equal(USER_ALREAY_EXISTS)
         done()
       })
     })
@@ -80,11 +82,67 @@ describe('Users Endpoints Tests', function() {
       })
     })
 
-    it('should not create a user a BASIC User', function(done) { 
-      request(app).get('/v1/users/')
+    it('A BASIC User should not create a user', function(done) { 
+      request(app).post('/v1/users/')
       .set('Content-type','application/json')
       .set( AUTH_HEADER , getToken(BasicUser))
       .send(newAdminUser)
+      .end(function(err, res) { 
+        expect(res.statusCode).to.equal(415)
+        expect(res.body.error).to.be.equal(UNAUTHORIZED)
+        done()
+      })
+    })
+  })
+
+  describe('# PUT /v1/users/', function() { 
+    it('An ADMIN should modified a user', function(done) { 
+      newAdminUser.username = 'pepito'
+      request(app).put(`/v1/users/${newAdminUserId}`)
+      .set('Content-type','application/json')
+      .set(AUTH_HEADER , getToken(AdminUser))
+      .send({ username: 'pepito'})
+      .end(function(err, res) { 
+        const updatedUser = { username: res.body.data.username, 
+          password: res.body.data.password, email: res.body.data.email, 
+          role: res.body.data.role 
+        }
+        expect(res.statusCode).to.equal(200)
+        expect(updatedUser).eql(newAdminUser)
+        expect(res.body.message).to.be.equal(PUT_SUCCESS)
+        done()
+      })
+    })
+   
+    it('A BASIC User should not create a user', function(done) { 
+      request(app).put(`/v1/users/${newAdminUserId}`)
+      .set('Content-type','application/json')
+      .set( AUTH_HEADER , getToken(BasicUser))
+      .send(newAdminUser)
+      .end(function(err, res) { 
+        expect(res.statusCode).to.equal(415)
+        expect(res.body.error).to.be.equal(UNAUTHORIZED)
+        done()
+      })
+    })
+  })
+
+  describe('# DELETE /v1/users/', function() { 
+    it('An ADMIN should delete a user', function(done) { 
+      request(app).delete(`/v1/users/${newAdminUserId}`)
+      .set('Content-type','application/json')
+      .set(AUTH_HEADER , getToken(AdminUser))
+      .end(function(err, res) { 
+        expect(res.statusCode).to.equal(204)
+        expect(res.body).to.be.empty
+        done()
+      })
+    })
+   
+    it('A BASIC User should not create a user', function(done) { 
+      request(app).delete(`/v1/users/${newAdminUserId}`)
+      .set('Content-type','application/json')
+      .set( AUTH_HEADER , getToken(BasicUser))
       .end(function(err, res) { 
         expect(res.statusCode).to.equal(415)
         expect(res.body.error).to.be.equal(UNAUTHORIZED)

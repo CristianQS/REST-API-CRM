@@ -7,8 +7,8 @@ module.exports.sendError = (res, message) => ({
   unsecureType: () => res.status(415).send({ code: 'UNSECURE_HEADER_TYPE', error: message }),
 })
 
-module.exports.sendSuccess = (res, message, data = {}) => ({
+module.exports.sendSuccess = (res, message={}, data = {}) => ({
   success: () => res.status(200).send({ message, data }),
   created: () => res.status(201).send({ message, data }),
-  noContent: () => res.status(204).send({ message }),
+  noContent: () => res.status(204).send(),
 })

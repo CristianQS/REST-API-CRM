@@ -2,7 +2,6 @@
 module.exports.GET_SUCCESS = 'Fetched successfully'
 module.exports.POST_SUCCESS = 'Created successfully'
 module.exports.PUT_SUCCESS = 'Modified successfully'
-module.exports.DELETE_SUCCESS = 'Deleted successfully'
 module.exports.AUTH_SUCCESS = 'Authenticated successfully'
 
 // 4xx Errors
