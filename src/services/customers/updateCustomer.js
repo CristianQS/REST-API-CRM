@@ -13,10 +13,10 @@ module.exports.updateCustomer = async (req, res, next) => {
       const customerId = req.params.id
       const newUpdateCustomer = req.body
 
-      if (newUpdateCustomer.name === undefined || newUpdateCustomer.name === '') return sendError(res, REQUIRED_FIELD_MISSING_NAME).missingField()
-      if (newUpdateCustomer.email === undefined || newUpdateCustomer.email === '') return sendError(res, REQUIRED_FIELD_MISSING_EMAIL).missingField()
+      if (newUpdateCustomer.name === '') return sendError(res, REQUIRED_FIELD_MISSING_NAME).missingField()
+      if (newUpdateCustomer.email === '') return sendError(res, REQUIRED_FIELD_MISSING_EMAIL).missingField()
 
-      let isEmailExists = await customerRepository().findOne({"email": newUpdateCustomer.email})
+      let isEmailExists = await customerRepository().findById(customerId)
 
       if (!isEmailExists) return sendError(res, CUSTOMER_NOT_FOUND).notFound()
 

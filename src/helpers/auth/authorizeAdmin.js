@@ -6,7 +6,7 @@ const { UNAUTHORIZED, UNSECURE_HEADER_TYPE } = require('../http/constants')
 module.exports = async (req, res, next) => {
   const header = req.headers[AUTH_HEADER].split(' ')
   if (header === undefined){
-    return sendError(res, UNSECURE_HEADER_TYPE).badRequest()
+    return sendError(res, UNSECURE_HEADER_TYPE).unsecureType()
   } 
   if (header[0] === 'Bearer' ) {
     let verify = await verifyIsAdminToken(header[1])

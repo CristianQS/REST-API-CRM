@@ -3,16 +3,16 @@
     "name": "Oswold",
     "surname": "Cobblepot",
     "email": "penguin@gmail.com",
-    "photo" : "",
-    "createdBy": "",
-    "lastTimeModified":""
+    "photo" : "https://crm-api-photo.s3-eu-west-1.amazonaws.com/penguin%40gmail.com.jpg",
+    "createdBy": "5d6d9b751c9d44000089a4ea",
+    "lastTimeModified":"5d6d9b751c9d44000089a4ea"
   },
   {
     "name": "Harvy",
     "surname": "Dent",
     "email": "dent@gmail.com",
-    "photo" : "",
-    "createdBy": "",
-    "lastTimeModified":""
+    "photo" : "https://crm-api-photo.s3-eu-west-1.amazonaws.com/dent%40gmail.com.jpg",
+    "createdBy": "5d6d9b751c9d44000089a4ea",
+    "lastTimeModified":"5d6d9b751c9d44000089a4ea"
   }
 ]

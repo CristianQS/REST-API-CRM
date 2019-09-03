@@ -181,7 +181,6 @@ describe('Users Endpoints Tests', function() {
   })
 })
 
-
 const mapUser = (data) => {
   return  { username: data.username, 
     password: data.password, email: data.email, 
