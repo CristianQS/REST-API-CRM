@@ -1,5 +1,5 @@
 const { generateToken } = require('../../helpers/jwt/index')
-const User = require('../../models/user')
+const { userRepository } = require('../../repository/userRepository')
 const { sendError, sendSuccess } = require('../../helpers/http/index')
 const { USER_NOT_FOUND, AUTH_FAILED, AUTH_SUCCESS,
         SERVER_ERROR } = require('../../helpers/http/constants')
@@ -7,7 +7,7 @@ const { USER_NOT_FOUND, AUTH_FAILED, AUTH_SUCCESS,
 module.exports.login = async (req, res) => {
   try {
     const { email, password } = req.body
-    let user = await User.findOne({ email: email })
+    let user = await userRepository().findOne({ email: email })
 
     if (user.length === 0) return sendError(res, USER_NOT_FOUND).notFound()
     if (user.email === email && user.password === password) {
