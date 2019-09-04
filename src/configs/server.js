@@ -5,7 +5,7 @@ const dotenv = require('dotenv').config()
 
 
 module.exports = {
-  bodyParser: bodyParser.json({limit: '2mb', extended: true}),
+  bodyParser: bodyParser.json({limit: process.env.LIMIT_REQUEST, extended: true}),
   morgan: morgan('tiny'),
   helmet: helmet()
 }

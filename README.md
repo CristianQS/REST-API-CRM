@@ -109,6 +109,10 @@ It has to seem as the following image
 
 [![Image from Gyazo](https://i.gyazo.com/6a5e185656b756847d85a4c68f3c1023.png)](https://gyazo.com/6a5e185656b756847d85a4c68f3c1023)
 
+__IMPORTANT__
+
+The __maximum size__ of the request for this project is the __2MB__. You can configure in the *configs* folder
+
 
 ## Users
 
@@ -292,9 +296,11 @@ These are the default customers:
 
 ### PHOTO
 
-__Important__
+__IMPORTANT__
 
 Customer can have a photo. If you want to __upload a photo__, you have to send the photo in __Base64__. This photo will be storaged in a S3 Bucket, and then in the database we store in the photo field the __URL__ of this one.
+
+The __maximum size__ to upload a photo is the __1MB__
 
 You can upload a photo when you are creating a customer or when you are updating one.
 
@@ -317,6 +323,8 @@ I want to emphasize that in the next example we __cut__ a part of the base64 ima
 }
 
 ```
+
+__BASE64ENCODER__
 
 [Base64Encode](https://www.base64-image.de)
 
@@ -351,6 +359,7 @@ The __name,surname__ and __email__ and  are __required__ fields.
 
 __IMPORTANT__
 A photo is not required, but you have to send the photo in __Base64__
+The __maximum size__ to upload a photo is the __1MB__
 
 
 An example of the JSON could be the next one:
@@ -385,6 +394,8 @@ The __name, surname__ and __email__ can't not be an empty string.
 
 __IMPORTANT__
 A photo is not required, but you have to send the photo in __Base64__
+The __maximum size__ to upload a photo is the __1MB__
+
 
 An example of the JSON could be the next ones:
 
