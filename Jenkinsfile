@@ -9,6 +9,9 @@ stages {
       steps {
         sh 'docker-compose build'
         sh 'docker-compose run back npm install'
+        dir('./resources/docker/') {
+          sh 'docker-compose build'
+        }
       }
     }
     stage ('Test front') {
