@@ -10,21 +10,26 @@ const { AUTH_HEADER } = require('../../helpers/auth/constants')
 
 module.exports.updateCustomer = async (req, res, next) => {
   try {
-      const customerId = req.params.id
-      const newUpdateCustomer = req.body
+    const customerId = req.params.id
+    const newUpdateCustomer = req.body
 
-      if (newUpdateCustomer.name === '') return sendError(res, REQUIRED_FIELD_MISSING_NAME).missingField()
-      if (newUpdateCustomer.email === '') return sendError(res, REQUIRED_FIELD_MISSING_EMAIL).missingField()
+    if (newUpdateCustomer.name === '') return sendError(res, REQUIRED_FIELD_MISSING_NAME).missingField()
+    if (newUpdateCustomer.email === '') return sendError(res, REQUIRED_FIELD_MISSING_EMAIL).missingField()
 
-      let isEmailExists = await customerRepository().findById(customerId)
+    let isEmailExists = await customerRepository().findById(customerId)
 
-      if (!isEmailExists) return sendError(res, CUSTOMER_NOT_FOUND).notFound()
+    if (!isEmailExists) return sendError(res, CUSTOMER_NOT_FOUND).notFound()
 
-        const header = req.headers[AUTH_HEADER].split(' ')
-        let decoded = decodeToken(header[1])
-        let user = await userRepository().find({email:decoded.email})
+      const header = req.headers[AUTH_HEADER].split(' ')
+      let decoded = decodeToken(header[1])
+      let user = await userRepository().find({email:decoded.email})
 
-        newUpdateCustomer['lastTimeModified'] = user[0]._id
+      newUpdateCustomer['lastTimeModified'] = user[0]._id
+
+      if(newUpdateCustomer['photo']) {
+        let urlPhoto = await uploadImage(newUpdateCustomer.photo, newUpdateCustomer.email)
+        newUpdateCustomer['photo'] = urlPhoto
+      }
 
       let updatedCustomer = await customerRepository().update(customerId, newUpdateCustomer, 
         { new: true })
