@@ -8,6 +8,7 @@ stages {
     stage ('Install front Dependecies') {
       steps {
         sh 'docker-compose down'
+        sh 'docker volume prune'
         sh 'docker-compose build'
         sh 'docker-compose run back npm install'
         dir('./resources/docker/') {

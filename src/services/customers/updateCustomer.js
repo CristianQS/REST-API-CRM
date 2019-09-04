@@ -3,16 +3,19 @@ const { uploadImage } = require('../../helpers/aws/s3/uploadImage')
 const { getUserAuth } = require('../../helpers/users/getUserAuth')
 const { sendError, sendSuccess } = require('../../helpers/http/index')
 const { SERVER_ERROR,REQUIRED_FIELD_MISSING_NAME, CUSTOMER_NOT_FOUND,
-        REQUIRED_FIELD_MISSING_EMAIL,PUT_SUCCESS } = require('../../helpers/http/constants')
+        REQUIRED_FIELD_MISSING_EMAIL,PUT_SUCCESS, REQUIRED_FIELD_MISSING_SURNAME } = require('../../helpers/http/constants')
 
 module.exports.updateCustomer = async (req, res, next) => {
   try {
-    if (Object.getOwnPropertyNames(req.body).length === 0 ) return sendError(res,BAD_PARAMETERS).badRequest()
+    let body = Object.keys(req.body).filter((key) => key === 'name' || 
+                key === 'surname' || key === 'email' || key === 'photo')
+    if (body.length === 0 || body.length !== Object.keys(req.body).length) return sendError(res,BAD_PARAMETERS).badRequest()
 
     const customerId = req.params.id
     const newUpdateCustomer = req.body
 
     if (newUpdateCustomer.name === '') return sendError(res, REQUIRED_FIELD_MISSING_NAME).missingField()
+    if (newCustomer.surname === '') return sendError(res, REQUIRED_FIELD_MISSING_SURNAME).missingField()
     if (newUpdateCustomer.email === '') return sendError(res, REQUIRED_FIELD_MISSING_EMAIL).missingField()
 
     let isEmailExists = await customerRepository().findById(customerId)

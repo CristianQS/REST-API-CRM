@@ -8,7 +8,9 @@ const { SERVER_ERROR, REQUIRED_FIELD_MISSING_NAME,
 const updateUser = async (req, res) => {
   try {
 
-    if (Object.getOwnPropertyNames(req.body).length === 0 ) return sendError(res,BAD_PARAMETERS).badRequest()
+    let body = Object.keys(req.body).filter((key) => key === 'username' || 
+                key === 'password' || key === 'email' || key === 'role' )
+    if (body.length === 0 || body.length !== Object.keys(req.body).length) return sendError(res,BAD_PARAMETERS).badRequest()
 
     const userId = req.params.id
     const { username,password, email, role } = req.body
