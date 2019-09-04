@@ -2,9 +2,7 @@ const { customerRepository } = require('../../repository/customerRepository')
 
 const { uploadImage } = require('../../helpers/aws/s3/uploadImage')
 
-const { userRepository } = require('../../repository/userRepository')
-const { decodeToken } = require('../../helpers/jwt/index')
-const { AUTH_HEADER } = require('../../helpers/auth/constants')
+const { getUserAuth } = require('../../helpers/users/getUserAuth')
 
 const { sendError, sendSuccess } = require('../../helpers/http/index')
 const { SERVER_ERROR, REQUIRED_FIELD_MISSING_NAME, REQUIRED_FIELD_MISSING_EMAIL,
@@ -19,12 +17,10 @@ module.exports.createCustomer = async (req,res,next) => {
       let isEmailExists = await customerRepository().findOne({"email": newCustomer.email})
       if (isEmailExists) return sendError(res, CUSTOMER_ALREAY_EXISTS).entityExists()
     
-      const header = req.headers[AUTH_HEADER].split(' ')
-      let decoded = decodeToken(header[1])
-      let user = await userRepository().find({email:decoded.email})
+      let user = await getUserAuth(req)
+      newCustomer['createdBy'] = user._id
+      newCustomer['lastTimeModified'] = user._id
 
-      newCustomer['createdBy'] = user[0]._id
-      newCustomer['lastTimeModified'] = user[0]._id
       if(newCustomer['photo']) {
         let urlPhoto = await uploadImage(newCustomer.photo, newCustomer.email)
         newCustomer['photo'] = urlPhoto
