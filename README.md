@@ -260,6 +260,10 @@ You must send as a __param__ the __id__ of the user.
 
 ## Customers
 
+To manage customers you need to be authenticated as a BASIC or ADMIN user.
+
+The next table show you all the endpoints you can request.
+
 Endpoint |  Description
 --- | ---
 GET /v1/customers |  Get all customers
@@ -267,6 +271,54 @@ GET /v1/customers/:id |  Get a customer
 POST /v1/customers | Create a new customer
 PUT /v1/customers/:id | Modify a customer
 DELETE /v1/customers/:id |  Delete a customer
+
+These are the default customers:
+
+```json
+  {
+    "name": "Oswold",
+    "surname": "Cobblepot",
+    "email": "penguin@gmail.com",
+    "photo" : "https://crm-api-photo.s3-eu-west-1.amazonaws.com/penguin%40gmail.com.jpg"
+
+  },
+  {
+    "name": "Harvy",
+    "surname": "Dent",
+    "email": "dent@gmail.com",
+    "photo" : "https://crm-api-photo.s3-eu-west-1.amazonaws.com/dent%40gmail.com.jpg"
+  }
+```
+
+### PHOTO
+
+__Important__
+
+Customer can have a photo. If you want to __upload a photo__, you have to send the photo in __Base64__. This photo will be storaged in a S3 Bucket, and then in the database we store in the photo field the __URL__ of this one.
+
+You can upload a photo when you are creating a customer or when you are updating one.
+
+The endpoints are:
+
+```
+POST http://domain.com/v1/customers/
+
+PUT http://domain.com/v1/customers/${customerId}
+```
+For more details, continue the reading
+
+__Important__
+
+I want to emphasize that in the next example we __cut__ a part of the base64 image:
+
+```json
+{
+  "photo": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACE8AAAhYCAYAAAA9ywWHAAAACXBIWXMAAC4jAAAuIwF4pT92AAAgAElEQVR4nOzdX2xc53kv6rcBE1mA+cfrSA4SWSYdG6mq2JasjaZIbZREeLHRBidSCrQbDVJI++ybhC0g5apAz4Xki10gN5UE7K725hxLaJDitEAtOUiLXqyIKuwaTQCJihPB7ZEj0rYcxNKhKdKAJIeAz8UMLUomhxxyzXxrZp4HICSIw7XeWfN5ZM33W+/7a......."
+}
+
+```
+
+[Base64Encode](https://www.base64-image.de)
 
 
 #### GET /v1/customers
@@ -297,6 +349,9 @@ POST http://domain.com/v1/customers/
 
 The __name,surname__ and __email__ and  are __required__ fields.
 
+__IMPORTANT__
+A photo is not required, but you have to send the photo in __Base64__
+
 
 An example of the JSON could be the next one:
 
@@ -305,6 +360,14 @@ An example of the JSON could be the next one:
     "name": "Jonathan",
     "surname": "Crane",
     "email": "crane@gmail.com"
+  }
+```
+```json
+  {
+    "name": "Jonathan",
+    "surname": "Crane",
+    "email": "crane@gmail.com",
+    "photo": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACE8AAAhYCAYAAAA9ywWHAAAACXBIWXMAAC4jAAAuIwF4pT92AAAgAElEQVR4nOzdX2xc53kv6rcBE1mA+cfrSA4SWSYdG6m..."
   }
 ```
 
@@ -319,6 +382,9 @@ PUT http://domain.com/v1/customers/${customerId}
 You must send as a __param__ the __id__ of the customer.
 
 The __name, surname__ and __email__ can't not be an empty string.
+
+__IMPORTANT__
+A photo is not required, but you have to send the photo in __Base64__
 
 An example of the JSON could be the next ones:
 
@@ -337,7 +403,7 @@ An example of the JSON could be the next ones:
 ```
 ```json
   {
-    "name": "Jonathan"
+    "photo": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACE8AAAhYCAYAAAA9ywWHAAAACXBIWXMAAC4jAAAuIwF4pT92AAAgAElEQVR4nOzdX2xc53kv6rcBE1mA+cfrSA4SWSYdG6m..."
   }
 ```
 
