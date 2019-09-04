@@ -7,6 +7,8 @@ const { SERVER_ERROR,REQUIRED_FIELD_MISSING_NAME, CUSTOMER_NOT_FOUND,
 
 module.exports.updateCustomer = async (req, res, next) => {
   try {
+    if (Object.getOwnPropertyNames(req.body).length === 0 ) return sendError(res,BAD_PARAMETERS).badRequest()
+
     const customerId = req.params.id
     const newUpdateCustomer = req.body
 

@@ -3,12 +3,13 @@ const { uploadImage } = require('../../helpers/aws/s3/uploadImage')
 const { getUserAuth } = require('../../helpers/users/getUserAuth')
 const { sendError, sendSuccess } = require('../../helpers/http/index')
 const { SERVER_ERROR, REQUIRED_FIELD_MISSING_NAME, REQUIRED_FIELD_MISSING_EMAIL,
-        CUSTOMER_ALREAY_EXISTS, POST_SUCCESS } = require('../../helpers/http/constants')
+        CUSTOMER_ALREAY_EXISTS, POST_SUCCESS, REQUIRED_FIELD_MISSING_SURNAME } = require('../../helpers/http/constants')
 
 module.exports.createCustomer = async (req,res,next) => {
   try {
       const newCustomer = req.body
       if (newCustomer.name === undefined || newCustomer.name === '') return sendError(res, REQUIRED_FIELD_MISSING_NAME).missingField()
+      if (newCustomer.surname === undefined || newCustomer.surname === '') return sendError(res, REQUIRED_FIELD_MISSING_SURNAME).missingField()
       if (newCustomer.email === undefined || newCustomer.email === '') return sendError(res, REQUIRED_FIELD_MISSING_EMAIL).missingField()
 
       let isEmailExists = await customerRepository().findOne({"email": newCustomer.email})
