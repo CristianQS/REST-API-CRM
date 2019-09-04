@@ -13,12 +13,25 @@ stages {
     }
     stage ('Test front') {
       steps {
+        dir('./resources/docker/') {
+          sh 'docker-compose up -d'
+        }
         sh 'docker-compose run back npm run test'
+        dir('./resources/docker/') {
+          sh 'docker-compose down'
+        }
       }
     }
     stage ('Deploy front') {
       steps {
         sh 'docker-compose up -d'            
+      }
+    }
+  }
+  post {
+    failure {
+      dir('./resources/docker/') {
+        sh 'docker-compose down'
       }
     }
   }
