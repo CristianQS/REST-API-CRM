@@ -307,7 +307,7 @@ PUT http://domain.com/v1/customers/${customerId}
 ```
 For more details, continue the reading
 
-__Important__
+__IMPORTANT__
 
 I want to emphasize that in the next example we __cut__ a part of the base64 image:
 
