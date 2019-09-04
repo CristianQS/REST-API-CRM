@@ -113,30 +113,150 @@ It has to seem as the following image
 
 ## Users
 
-To manage users you need to be authenticates as a ADMIN user
+To manage users you need to be authenticated as a ADMIN user. If you try to authenticate as a BASIC user, you will receive a *UNAUTHORIZED message*.
+
+The next table show you all the endpoints you can request
 
 Endpoint |  Description
---- | ---
-GET /v1/users |  Get all users
-POST /v1/users | Create a new user
-PUT /v1/users/:id | Modify a user
-PATCH /v1/users/:id/role |  Change the role of a user
+:--- | :---
+GET    /v1/users |  Get all users
+POST   /v1/users | Create a new user
+PUT    /v1/users/:id | Modify a user
+PATCH  /v1/users/:id/role |  Change the role of a user
 DELETE /v1/users/:id |  Delete a user
+
+These are the default users
+
+#### ADMIN USER
+```json
+  {
+    "email": "bruce@gmail.com",
+    "password": "Batman"
+  }
+```
+#### BASIC USER
+```json
+  {
+    "email": "jason@gmail.com",
+    "password": "redHood"
+  }
+```
+#### Role
+***
+Users can have two types of roles, a **Basic** or **Admin**. To update or create a user, have in mind that, these are the values to establish each role. 
+
+###### BASIC USER
 
 ```json
   {
-    "username": "Bruce Wayne",
-    "password": "Batman",
-    "email": "bruce@gmail.com",
-    "role": "ADMIN"
-  },
-  {
-    "username": "Jason Todd",
-    "password": "redHood",
-    "email": "jason@gmail.com",
     "role": "BASIC"
   }
 ```
+###### ADMIN USER
+```json
+  {
+    "role": "ADMIN"
+  }
+```
+
+### GET /v1/users
+****
+You will get a list with all the users.
+
+```
+GET http://domain.com/v1/users/
+```
+
+### POST /v1/users
+****
+You can create a new User.
+
+```
+POST http://domain.com/v1/users/
+```
+
+The __username, password, email__ and __role__ are __required__ fields.
+
+An example of the JSON could be the next one:
+
+```json
+  {
+    "username": "Dick Grayson",
+    "password": "night",
+    "email": "grayson@gmail.com",
+    "role": "BASIC"
+  }
+```
+
+### PUT /v1/users/:id
+****
+You can update the __username, password__ and __email__ of a user
+
+```
+PUT http://domain.com/v1/users/${userId}
+```
+You must send as a __param__ the __id__ of the user.
+
+The __username, password__ and __email__ can't not be an empty string. You can't send the role field, due to we have another endpoint to do that operation.
+
+An example of the JSON could be the next ones:
+
+```json
+  {
+    "username": "Damian Grayson",
+    "password": "sun",
+    "email": "gon@gmail.com"
+  }
+````
+```json
+  {
+    "password": "sun",
+    "email": "gon@gmail.com"
+  }
+```
+```json
+  {
+    "email": "gon@gmail.com"
+  }
+```
+
+### PATCH /v1/users/:id/role
+****
+In this endpoint you can update the role of an user. 
+
+```
+PATCH http://domain.com/v1/users/${userId}/role
+```
+
+You must send as a __param__ the __id__ of the user.
+
+You have to send on the body a JSON with the role field. If you send other fields or the value of the Role does not exists, the request will fail.
+
+An example of the JSON could be the next one:
+
+#### CHANGE TO A BASIC USER
+
+```json
+  {
+    "role": "BASIC"
+  }
+```
+#### CHANGE TO AN ADMIN USER
+```json
+  {
+    "role": "ADMIN"
+  }
+```
+
+### DELETE /v1/users/:id
+****
+You can a delete a user.
+
+```
+DELETE http://domain.com/v1/users/${userId}
+```
+
+You must send as a __param__ the __id__ of the user.
 
 ## Customers
 
@@ -147,3 +267,19 @@ GET /v1/customers/:id |  Get a customer
 POST /v1/customers | Create a new customer
 PUT /v1/customers/:id | Modify a customer
 DELETE /v1/customers/:id |  Delete a customer
+
+
+### GET /v1/customers
+****
+
+### GET /v1/customers/:id
+****
+
+### POST /v1/customers
+****
+
+### PUT /v1/customers/id
+****
+
+### DELETE /v1/customers/:id
+****
