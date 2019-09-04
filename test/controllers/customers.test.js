@@ -20,7 +20,6 @@ describe('Customers Endpoints Tests', function() {
   describe('# GET /v1/customers/', function() { 
     it('should get customers ', function(done) { 
       request(app).get('/v1/customers/')
-      .set('Content-type','application/json')
       .set( AUTH_HEADER , getToken(User))
       .end(function(err, res) { 
         expect(res.statusCode).to.equal(200)
@@ -32,7 +31,6 @@ describe('Customers Endpoints Tests', function() {
 
     it('should not get customers', function(done) { 
       request(app).get('/v1/customers/')
-      .set('Content-type','application/json')
       .end(function(err, res) { 
         expect(res.statusCode).to.equal(415)
         expect(res.body.error).to.be.equal(UNSECURE_HEADER_TYPE)
@@ -123,7 +121,6 @@ describe('Customers Endpoints Tests', function() {
   describe('# DELETE /v1/customers/:id', function() { 
     it('should not delete a customer', function(done) { 
       request(app).delete(`/v1/customers/${newCustomerId}`)
-      .set('Content-type','application/json')
       .end(function(err, res) { 
         expect(res.statusCode).to.equal(415)
         expect(res.body.error).to.be.equal(UNSECURE_HEADER_TYPE)
@@ -133,7 +130,6 @@ describe('Customers Endpoints Tests', function() {
 
     it('should delete a customer', function(done) { 
       request(app).delete(`/v1/customers/${newCustomerId}`)
-      .set('Content-type','application/json')
       .set(AUTH_HEADER , getToken(User))
       .end(function(err, res) { 
         expect(res.statusCode).to.equal(204)
@@ -146,7 +142,6 @@ describe('Customers Endpoints Tests', function() {
 })
 
 const mapCustomer = (data) => {
-  console.log(data)
   return  { name: data.name, 
     surname: data.surname ,
     email: data.email , photo: data.photo,

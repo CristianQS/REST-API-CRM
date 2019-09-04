@@ -1,12 +1,16 @@
 const { customerRepository } = require('../../repository/customerRepository')
+
+const { uploadImage } = require('../../helpers/aws/s3/uploadImage')
+
+const { userRepository } = require('../../repository/userRepository')
+const { decodeToken } = require('../../helpers/jwt/index')
+const { AUTH_HEADER } = require('../../helpers/auth/constants')
+
 const { sendError, sendSuccess } = require('../../helpers/http/index')
 const { SERVER_ERROR,REQUIRED_FIELD_MISSING_NAME, 
         REQUIRED_FIELD_MISSING_EMAIL, CUSTOMER_NOT_FOUND,  
         PUT_SUCCESS } = require('../../helpers/http/constants')
 
-const { userRepository } = require('../../repository/userRepository')
-const { decodeToken } = require('../../helpers/jwt/index')
-const { AUTH_HEADER } = require('../../helpers/auth/constants')
 
 module.exports.updateCustomer = async (req, res, next) => {
   try {
@@ -17,7 +21,6 @@ module.exports.updateCustomer = async (req, res, next) => {
     if (newUpdateCustomer.email === '') return sendError(res, REQUIRED_FIELD_MISSING_EMAIL).missingField()
 
     let isEmailExists = await customerRepository().findById(customerId)
-
     if (!isEmailExists) return sendError(res, CUSTOMER_NOT_FOUND).notFound()
 
       const header = req.headers[AUTH_HEADER].split(' ')

@@ -21,7 +21,6 @@ describe('Users Endpoints Tests', function() {
   describe('# GET /v1/users/', function() { 
     it('An ADMIN should get users ', function(done) { 
       request(app).get('/v1/users/')
-      .set('Content-type','application/json')
       .set( AUTH_HEADER , getToken(AdminUser))
       .end(function(err, res) { 
         expect(res.statusCode).to.equal(200)
@@ -33,7 +32,6 @@ describe('Users Endpoints Tests', function() {
 
     it('A BASIC User should not get users', function(done) { 
       request(app).get('/v1/users/')
-      .set('Content-type','application/json')
       .set( AUTH_HEADER , getToken(BasicUser))
       .end(function(err, res) { 
         expect(res.statusCode).to.equal(415)
@@ -159,7 +157,6 @@ describe('Users Endpoints Tests', function() {
   describe('# DELETE /v1/users/:id', function() { 
     it('An ADMIN should delete a user', function(done) { 
       request(app).delete(`/v1/users/${newAdminUserId}`)
-      .set('Content-type','application/json')
       .set(AUTH_HEADER , getToken(AdminUser))
       .end(function(err, res) { 
         expect(res.statusCode).to.equal(204)
@@ -170,7 +167,6 @@ describe('Users Endpoints Tests', function() {
    
     it('A BASIC User should not create a user', function(done) { 
       request(app).delete(`/v1/users/${newAdminUserId}`)
-      .set('Content-type','application/json')
       .set( AUTH_HEADER , getToken(BasicUser))
       .end(function(err, res) { 
         expect(res.statusCode).to.equal(415)

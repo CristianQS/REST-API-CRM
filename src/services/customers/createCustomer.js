@@ -17,7 +17,6 @@ module.exports.createCustomer = async (req,res,next) => {
       if (newCustomer.email === undefined || newCustomer.email === '') return sendError(res, REQUIRED_FIELD_MISSING_EMAIL).missingField()
 
       let isEmailExists = await customerRepository().findOne({"email": newCustomer.email})
-
       if (isEmailExists) return sendError(res, CUSTOMER_ALREAY_EXISTS).entityExists()
     
       const header = req.headers[AUTH_HEADER].split(' ')

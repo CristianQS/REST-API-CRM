@@ -6,7 +6,7 @@ const expect = chai.expect
 
 describe('Auth Endpoints Tests', function() { 
   describe('# POST /v1/auth/', function() { 
-    it('should get authntication', function(done) { 
+    it('should get authentication', function(done) { 
       request(app).post('/v1/auth/')
       .set('Content-type','application/json')
       .send({
@@ -24,7 +24,7 @@ describe('Auth Endpoints Tests', function() {
     it('call authentication without body', function(done) { 
       request(app).post('/v1/auth/')
       .end(function(err, res) { 
-        expect(res.statusCode).to.equal(415)
+        expect(res.statusCode).to.equal(404)
         done()
       })
     })
