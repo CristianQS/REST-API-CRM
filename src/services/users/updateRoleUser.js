@@ -2,7 +2,7 @@ const { userRepository } = require('../../repository/userRepository')
 const { Role } = require('../../models/role')
 const { sendError, sendSuccess } = require('../../helpers/http/index')
 const { SERVER_ERROR, BAD_PARAMETERS, USER_NOT_FOUND, ROLE_NOT_FOUND,
-        PUT_SUCCESS } = require('../../helpers/http/constants')
+        PUT_SUCCESS, REQUIRED_FIELD_MISSING_ROLE } = require('../../helpers/http/constants')
 
 const updateRoleUser = async (req, res) => {
   try {
@@ -11,7 +11,7 @@ const updateRoleUser = async (req, res) => {
       if (check.length > 1) return sendError(res, BAD_PARAMETERS ).badRequest()
 
       const role = req.body.role
-      if (role === undefined) return sendError(res, BAD_PARAMETERS ).badRequest()
+      if (role === undefined) return sendError(res, REQUIRED_FIELD_MISSING_ROLE ).missingField()
       if (Role[role] === undefined) return sendError(res, ROLE_NOT_FOUND ).badRequest()
 
       let isUserExists = await userRepository().findById(userId)

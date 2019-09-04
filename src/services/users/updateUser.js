@@ -3,7 +3,7 @@ const { sendError, sendSuccess } = require('../../helpers/http/index')
 const { SERVER_ERROR, REQUIRED_FIELD_MISSING_NAME, 
         REQUIRED_FIELD_MISSING_EMAIL, USER_NOT_FOUND, 
         PUT_SUCCESS, REQUIRED_FIELD_MISSING_PASSWORD,
-        ROLE_NOT_FOUND, BAD_PARAMETERS } = require('../../helpers/http/constants')
+        ROLE_NOT_FOUND, REQUIRED_FIELD_MISSING_ROLE } = require('../../helpers/http/constants')
 
 const updateUser = async (req, res) => {
   try {
@@ -14,7 +14,7 @@ const updateUser = async (req, res) => {
       if (password === '') return sendError(res, REQUIRED_FIELD_MISSING_PASSWORD ).missingField()
       if (email === '') return sendError(res, REQUIRED_FIELD_MISSING_EMAIL).missingField()
 
-      if (role === '') return sendError(res, BAD_PARAMETERS ).badRequest()
+      if (role === '') return sendError(res, REQUIRED_FIELD_MISSING_ROLE ).missingField()
       if (role && Role[role] === undefined) return sendError(res, ROLE_NOT_FOUND ).badRequest()
 
       let isUserExists = await userRepository().findById(userId)
