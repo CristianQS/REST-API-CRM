@@ -4,6 +4,7 @@ services:
   back:
     build: .
     command: npm run prod
+    network_mode: "host"
     container_name: crm-rest-apimaster_back_1
     volumes:
       - .:/code

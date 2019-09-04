@@ -19,7 +19,7 @@ stages {
         dir('./resources/docker/') {
           sh 'docker-compose up -d'
         }
-        sh 'docker-compose run back npm run test:docker'
+        sh 'docker-compose run back npm run test'
         dir('./resources/docker/') {
           sh 'docker-compose down'
         }
