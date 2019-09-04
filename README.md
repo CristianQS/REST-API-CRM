@@ -1,5 +1,4 @@
 # REST-API CRM
---------------
 
 ## Table of Contents
 
@@ -115,17 +114,18 @@ It has to seem as the following image
 
 To manage users you need to be authenticated as a ADMIN user. If you try to authenticate as a BASIC user, you will receive a *UNAUTHORIZED message*.
 
-The next table show you all the endpoints you can request
+The next table show you all the endpoints you can request.
 
 Endpoint |  Description
-:--- | :---
+--- | :---
 GET    /v1/users |  Get all users
 POST   /v1/users | Create a new user
 PUT    /v1/users/:id | Modify a user
 PATCH  /v1/users/:id/role |  Change the role of a user
 DELETE /v1/users/:id |  Delete a user
 
-These are the default users
+
+These are the default users:
 
 #### ADMIN USER
 ```json
@@ -159,7 +159,7 @@ Users can have two types of roles, a **Basic** or **Admin**. To update or create
   }
 ```
 
-### GET /v1/users
+#### GET /v1/users
 ****
 You will get a list with all the users.
 
@@ -167,7 +167,7 @@ You will get a list with all the users.
 GET http://domain.com/v1/users/
 ```
 
-### POST /v1/users
+#### POST /v1/users
 ****
 You can create a new User.
 
@@ -188,7 +188,7 @@ An example of the JSON could be the next one:
   }
 ```
 
-### PUT /v1/users/:id
+#### PUT /v1/users/:id
 ****
 You can update the __username, password__ and __email__ of a user
 
@@ -220,7 +220,7 @@ An example of the JSON could be the next ones:
   }
 ```
 
-### PATCH /v1/users/:id/role
+#### PATCH /v1/users/:id/role
 ****
 In this endpoint you can update the role of an user. 
 
@@ -234,21 +234,21 @@ You have to send on the body a JSON with the role field. If you send other field
 
 An example of the JSON could be the next one:
 
-#### CHANGE TO A BASIC USER
+##### CHANGE TO A BASIC USER
 
 ```json
   {
     "role": "BASIC"
   }
 ```
-#### CHANGE TO AN ADMIN USER
+##### CHANGE TO AN ADMIN USER
 ```json
   {
     "role": "ADMIN"
   }
 ```
 
-### DELETE /v1/users/:id
+#### DELETE /v1/users/:id
 ****
 You can a delete a user.
 
@@ -269,17 +269,84 @@ PUT /v1/customers/:id | Modify a customer
 DELETE /v1/customers/:id |  Delete a customer
 
 
-### GET /v1/customers
+#### GET /v1/customers
+****
+You will get a list with all the customers.
+
+```
+GET http://domain.com/v1/customers/
+```
+
+#### GET /v1/customers/:id
+****
+You can get the full information a customer.
+
+```
+GET http://domain.com/v1/customers/${customerId}
+```
+
+You must send as a __param__ the __id__ of the customer.
+
+#### POST /v1/customers
+****
+You can create a new Customer.
+
+```
+POST http://domain.com/v1/customers/
+```
+
+The __name,surname__ and __email__ and  are __required__ fields.
+
+
+An example of the JSON could be the next one:
+
+```json
+  {
+    "name": "Jonathan",
+    "surname": "Crane",
+    "email": "crane@gmail.com"
+  }
+```
+
+#### PUT /v1/customers/:id
 ****
 
-### GET /v1/customers/:id
-****
+You can update the __username, password__ and __email__ of a customer
 
-### POST /v1/customers
-****
+```
+PUT http://domain.com/v1/customers/${customerId}
+```
+You must send as a __param__ the __id__ of the customer.
 
-### PUT /v1/customers/id
-****
+The __name, surname__ and __email__ can't not be an empty string.
 
-### DELETE /v1/customers/:id
+An example of the JSON could be the next ones:
+
+```json
+  {
+    "name": "Jonathan",
+    "surname": "Crane",
+    "email": "crane@gmail.com"
+  }
+````
+```json
+  {
+    "name": "Jonathan",
+    "surname": "Crane",
+  }
+```
+```json
+  {
+    "name": "Jonathan"
+  }
+```
+
+#### DELETE /v1/customers/:id
 ****
+You can a delete a customer.
+
+```
+DELETE http://domain.com/v1/customers/${customerId}
+```
+
+You must send as a __param__ the __id__ of the customer.
