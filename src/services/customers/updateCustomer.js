@@ -1,13 +1,9 @@
 const { customerRepository } = require('../../repository/customerRepository')
-
 const { uploadImage } = require('../../helpers/aws/s3/uploadImage')
-
 const { getUserAuth } = require('../../helpers/users/getUserAuth')
 const { sendError, sendSuccess } = require('../../helpers/http/index')
-const { SERVER_ERROR,REQUIRED_FIELD_MISSING_NAME, 
-        REQUIRED_FIELD_MISSING_EMAIL, CUSTOMER_NOT_FOUND,  
-        PUT_SUCCESS } = require('../../helpers/http/constants')
-
+const { SERVER_ERROR,REQUIRED_FIELD_MISSING_NAME, CUSTOMER_NOT_FOUND,
+        REQUIRED_FIELD_MISSING_EMAIL,PUT_SUCCESS } = require('../../helpers/http/constants')
 
 module.exports.updateCustomer = async (req, res, next) => {
   try {

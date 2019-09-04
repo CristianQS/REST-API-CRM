@@ -1,9 +1,6 @@
 const { customerRepository } = require('../../repository/customerRepository')
-
 const { uploadImage } = require('../../helpers/aws/s3/uploadImage')
-
 const { getUserAuth } = require('../../helpers/users/getUserAuth')
-
 const { sendError, sendSuccess } = require('../../helpers/http/index')
 const { SERVER_ERROR, REQUIRED_FIELD_MISSING_NAME, REQUIRED_FIELD_MISSING_EMAIL,
         CUSTOMER_ALREAY_EXISTS, POST_SUCCESS } = require('../../helpers/http/constants')
