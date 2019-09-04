@@ -8,6 +8,7 @@
     "prod": "cross-env NODE_ENV=production node app.js",
     "watch": "nodemon app.js",
     "test": "mocha --recursive --timeout 10000 --exit",
+    "test:docker": "NODE_ENV=docker mocha --recursive --timeout 10000 --exit",
     "test:watch": "mocha --recursive --watch"
   },
   "repository": {
