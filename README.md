@@ -134,8 +134,9 @@ To manage users you need to be authenticated as a ADMIN user. If you try to auth
 The next table show you all the endpoints you can request.
 
 Endpoint |  Description
---- | :---
+:--- | :---
 GET    /v1/users |  Get all users
+GET /v1/users/:id |  Get an user
 POST   /v1/users | Create a new user
 PUT    /v1/users/:id | Modify a user
 PATCH  /v1/users/:id/role |  Change the role of a user
@@ -183,6 +184,15 @@ You will get a list with all the users.
 ```
 GET http://domain.com/v1/users/
 ```
+#### GET /v1/users/:id
+****
+You can get the full information a user.
+
+```
+GET http://domain.com/v1/users/${userId}
+```
+
+You must send as a __param__ the __id__ of the user.
 
 #### POST /v1/users
 ****
