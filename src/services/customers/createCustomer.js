@@ -22,6 +22,7 @@ module.exports.createCustomer = async (req,res,next) => {
         let urlPhoto = await uploadImage(newCustomer.photo, newCustomer.email)
         newCustomer['photo'] = urlPhoto
       }
+      
       let createdCustomer = await customerRepository().create(newCustomer)
 
       if (createdCustomer) {
