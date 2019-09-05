@@ -2,19 +2,16 @@ const { customerRepository } = require('../../repository/customerRepository')
 const { uploadImage } = require('../../helpers/aws/s3/uploadImage')
 const { getUserAuth } = require('../../helpers/users/getUserAuth')
 const { sendError, sendSuccess } = require('../../helpers/http/index')
-const { SERVER_ERROR,REQUIRED_FIELD_MISSING_NAME, CUSTOMER_NOT_FOUND,
+const { SERVER_ERROR,REQUIRED_FIELD_MISSING_NAME, CUSTOMER_NOT_FOUND, BAD_PARAMETERS,
         REQUIRED_FIELD_MISSING_EMAIL,PUT_SUCCESS, REQUIRED_FIELD_MISSING_SURNAME } = require('../../helpers/http/constants')
 
 module.exports.updateCustomer = async (req, res, next) => {
   try {
-    let body = Object.keys(req.body).filter((key) => key === 'name' || 
-                key === 'surname' || key === 'email' || key === 'photo')
-    if (body.length === 0 || body.length !== Object.keys(req.body).length) return sendError(res,BAD_PARAMETERS).badRequest()
+
+    if (!checkCustomerBody(req)) return sendError(res, BAD_PARAMETERS).badRequest()
 
     const customerId = req.params.id
     const newUpdateCustomer = req.body
-
-    console.log(newUpdateCustomer)
 
     if (newUpdateCustomer.name === '') return sendError(res, REQUIRED_FIELD_MISSING_NAME).missingField()
     if (newUpdateCustomer.surname === '') return sendError(res, REQUIRED_FIELD_MISSING_SURNAME).missingField()
@@ -40,6 +37,13 @@ module.exports.updateCustomer = async (req, res, next) => {
       return sendError(res,SERVER_ERROR).internal()
     }
   } catch (error) {
-      return sendError(res,SERVER_ERROR).internal()
+    return sendError(res,SERVER_ERROR).internal()
   }
+}
+
+function checkCustomerBody (req) {
+  let body = Object.keys(req.body).filter((key) => key === 'name' || 
+  key === 'surname' || key === 'email' || key === 'photo')
+  if (body.length === 0 || body.length !== Object.keys(req.body).length) return false
+  return true
 }
