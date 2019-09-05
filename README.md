@@ -125,7 +125,7 @@ It has to seem as the following image
 __IMPORTANT__
 
 The __maximum size__ of the request for this project is the __2MB__. You can configure in the *configs* folder
-Check that in the POST, PUT and PATCH methods it's in the header the field __Content-Type__ with the value __application/json__
+If you are going to __send a JSON__ to an API Method, check if the header contain the field __Content-Type__ with the value __application/json__, otherwise you will receive the error *Missing or invalid content type header*
 
 
 ## Users
