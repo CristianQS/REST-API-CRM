@@ -1,4 +1,6 @@
 const AWS = require('aws-sdk')
+const { sendError, sendSuccess } = require('../../../helpers/http/index')
+const {  USER_NOT_FOUND, GET_SUCCESS} = require('../../../helpers/http/constants')
 const { ACCESS_KEY_ID, SECRET_ACCESS_KEY, AWS_REGION, S3_BUCKET } = process.env
 
 module.exports.uploadImage = async (base64, userEmail) => {
@@ -13,18 +15,18 @@ module.exports.uploadImage = async (base64, userEmail) => {
   if (type === "png" || type === "jpg" || type === "jpeg") {
     const params = {
       Bucket: S3_BUCKET,
-      Key: `${userEmail}.${type}`, // type is not required
+      Key: `${userEmail}.${type}`, 
       Body: base64Data,
       ACL: 'public-read',
-      ContentEncoding: 'base64', // required
-      ContentType: `image/${type}` // required. Notice the back ticks
+      ContentEncoding: 'base64',
+      ContentType: `image/${type}`
     }
 
     try {
       const { Location } = await s3.upload(params).promise()
       location = Location
     } catch (error) {
-        // console.log(error)
+      return sendError(res,BAD_PARAMETERS).badRequest()
     }
   }
   return location
